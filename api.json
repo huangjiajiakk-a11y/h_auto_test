@@ -1,0 +1,458 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DummyJSON API",
+    "description": "认证和用户管理接口",
+    "version": "1.0.0",
+    "contact": {
+      "name": "API Support",
+      "url": "https://dummyjson.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://dummyjson.com",
+      "description": "DummyJSON 生产环境"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "summary": "用户登录",
+        "description": "使用用户名和密码登录，获取访问令牌和用户信息",
+        "operationId": "login",
+        "tags": [
+          "认证授权"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "username",
+                  "password"
+                ],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "用户名",
+                    "example": "emilys"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "密码",
+                    "example": "emilyspass"
+                  },
+                  "expiresInMins": {
+                    "type": "integer",
+                    "description": "Token 过期时间（分钟），默认30分钟",
+                    "default": 30,
+                    "example": 30
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "登录成功，返回用户信息和 Token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "username": {
+                      "type": "string",
+                      "example": "emilys"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "emily.johnson@x.dummyjson.com"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "example": "Emily"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "example": "Johnson"
+                    },
+                    "gender": {
+                      "type": "string",
+                      "example": "female"
+                    },
+                    "image": {
+                      "type": "string",
+                      "example": "https://dummyjson.com/icon/emilys/128"
+                    },
+                    "accessToken": {
+                      "type": "string",
+                      "description": "访问令牌，用于后续请求认证"
+                    },
+                    "refreshToken": {
+                      "type": "string",
+                      "description": "刷新令牌"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "认证失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "summary": "获取当前用户信息",
+        "description": "使用 Bearer Token 获取当前登录用户的详细信息",
+        "operationId": "getCurrentUser",
+        "tags": [
+          "用户管理"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功返回用户详细信息",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "example": "Emily"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "example": "Johnson"
+                    },
+                    "maidenName": {
+                      "type": "string",
+                      "example": "Smith"
+                    },
+                    "age": {
+                      "type": "integer",
+                      "example": 29
+                    },
+                    "gender": {
+                      "type": "string",
+                      "example": "female"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "emily.johnson@x.dummyjson.com"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "+81 965-431-3024"
+                    },
+                    "username": {
+                      "type": "string",
+                      "example": "emilys"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "密码（仅示例，实际不会返回）",
+                      "example": "emilyspass"
+                    },
+                    "birthDate": {
+                      "type": "string",
+                      "format": "date",
+                      "example": "1996-5-30"
+                    },
+                    "image": {
+                      "type": "string",
+                      "example": "https://dummyjson.com/icon/emilys/128"
+                    },
+                    "bloodGroup": {
+                      "type": "string",
+                      "example": "O-"
+                    },
+                    "height": {
+                      "type": "number",
+                      "format": "float",
+                      "example": 193.24
+                    },
+                    "weight": {
+                      "type": "number",
+                      "format": "float",
+                      "example": 63.16
+                    },
+                    "eyeColor": {
+                      "type": "string",
+                      "example": "Green"
+                    },
+                    "hair": {
+                      "type": "object",
+                      "properties": {
+                        "color": {
+                          "type": "string",
+                          "example": "Brown"
+                        },
+                        "type": {
+                          "type": "string",
+                          "example": "Curly"
+                        }
+                      }
+                    },
+                    "ip": {
+                      "type": "string",
+                      "example": "42.48.100.32"
+                    },
+                    "address": {
+                      "type": "object",
+                      "properties": {
+                        "address": {
+                          "type": "string",
+                          "example": "626 Main Street"
+                        },
+                        "city": {
+                          "type": "string",
+                          "example": "Phoenix"
+                        },
+                        "state": {
+                          "type": "string",
+                          "example": "Mississippi"
+                        },
+                        "stateCode": {
+                          "type": "string",
+                          "example": "MS"
+                        },
+                        "postalCode": {
+                          "type": "string",
+                          "example": "29112"
+                        },
+                        "coordinates": {
+                          "type": "object",
+                          "properties": {
+                            "lat": {
+                              "type": "number",
+                              "format": "float",
+                              "example": -77.16213
+                            },
+                            "lng": {
+                              "type": "number",
+                              "format": "float",
+                              "example": -92.084824
+                            }
+                          }
+                        },
+                        "country": {
+                          "type": "string",
+                          "example": "United States"
+                        }
+                      }
+                    },
+                    "macAddress": {
+                      "type": "string",
+                      "example": "47:fa:41:18:ec:eb"
+                    },
+                    "university": {
+                      "type": "string",
+                      "example": "University of Wisconsin--Madison"
+                    },
+                    "bank": {
+                      "type": "object",
+                      "properties": {
+                        "cardExpire": {
+                          "type": "string",
+                          "example": "05/28"
+                        },
+                        "cardNumber": {
+                          "type": "string",
+                          "example": "3693233511855044"
+                        },
+                        "cardType": {
+                          "type": "string",
+                          "example": "Diners Club International"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "example": "GBP"
+                        },
+                        "iban": {
+                          "type": "string",
+                          "example": "GB74MH2UZLR9TRPHYNU8F8"
+                        }
+                      }
+                    },
+                    "company": {
+                      "type": "object",
+                      "properties": {
+                        "department": {
+                          "type": "string",
+                          "example": "Engineering"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Dooley, Kozey and Cronin"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "Sales Manager"
+                        },
+                        "address": {
+                          "type": "object",
+                          "properties": {
+                            "address": {
+                              "type": "string",
+                              "example": "263 Tenth Street"
+                            },
+                            "city": {
+                              "type": "string",
+                              "example": "San Francisco"
+                            },
+                            "state": {
+                              "type": "string",
+                              "example": "Wisconsin"
+                            },
+                            "stateCode": {
+                              "type": "string",
+                              "example": "WI"
+                            },
+                            "postalCode": {
+                              "type": "string",
+                              "example": "37657"
+                            },
+                            "coordinates": {
+                              "type": "object",
+                              "properties": {
+                                "lat": {
+                                  "type": "number",
+                                  "format": "float",
+                                  "example": 71.814525
+                                },
+                                "lng": {
+                                  "type": "number",
+                                  "format": "float",
+                                  "example": -161.150263
+                                }
+                              }
+                            },
+                            "country": {
+                              "type": "string",
+                              "example": "United States"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "ein": {
+                      "type": "string",
+                      "example": "977-175"
+                    },
+                    "ssn": {
+                      "type": "string",
+                      "example": "900-590-289"
+                    },
+                    "userAgent": {
+                      "type": "string",
+                      "example": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+                    },
+                    "crypto": {
+                      "type": "object",
+                      "properties": {
+                        "coin": {
+                          "type": "string",
+                          "example": "Bitcoin"
+                        },
+                        "wallet": {
+                          "type": "string",
+                          "example": "0xb9fc2fe63b2a6c003f1c324c3bfa53259162181a"
+                        },
+                        "network": {
+                          "type": "string",
+                          "example": "Ethereum (ERC20)"
+                        }
+                      }
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "admin"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权，Token 无效或缺失",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication failed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "用户不存在"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "使用登录接口返回的 accessToken 进行认证，格式：Bearer {token}"
+      }
+    }
+  }
+}
