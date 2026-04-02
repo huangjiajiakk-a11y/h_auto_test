@@ -11,4 +11,4 @@ json_data = {
     ]
 }
 res = requests.post(url=url_data, json=json_data)
-print(res.json())
+
