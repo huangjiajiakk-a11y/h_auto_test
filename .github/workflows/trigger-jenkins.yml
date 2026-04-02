@@ -1,0 +1,24 @@
+name: Trigger Jenkins Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger-jenkins:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Jenkins Job
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            --max-time 30 \
+            -X POST \
+            "${{ secrets.JENKINS_URL }}/generic-webhook-trigger/invoke?token=${{ secrets.JENKINS_TOKEN }}")
+
+          if [ "$response" -eq 200 ]; then
+            echo "Jenkins pipeline triggered successfully"
+          else
+            echo "Failed to trigger Jenkins pipeline, HTTP status: $response"
+            exit 1
+          fi
