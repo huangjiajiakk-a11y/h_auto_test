@@ -443,6 +443,141 @@
           }
         }
       }
+    },
+    "/carts/add": {
+      "post": {
+        "summary": "添加购物车",
+        "description": "为指定用户添加商品到购物车",
+        "operationId": "addCart",
+        "tags": [
+          "购物车管理"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "userId",
+                  "products"
+                ],
+                "properties": {
+                  "userId": {
+                    "type": "integer",
+                    "description": "用户ID",
+                    "example": 1
+                  },
+                  "products": {
+                    "type": "array",
+                    "description": "商品列表",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "quantity"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "商品ID",
+                          "example": 152
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "description": "购买数量",
+                          "example": 4
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "添加购物车成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 51
+                    },
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 152
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "Tennis Racket"
+                          },
+                          "price": {
+                            "type": "number",
+                            "example": 49.99
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "example": 4
+                          },
+                          "total": {
+                            "type": "number",
+                            "example": 199.96
+                          },
+                          "discountPercentage": {
+                            "type": "number",
+                            "example": 19.61
+                          },
+                          "discountedPrice": {
+                            "type": "integer",
+                            "example": 161
+                          },
+                          "thumbnail": {
+                            "type": "string",
+                            "example": "https://cdn.dummyjson.com/product-images/sports-accessories/tennis-racket/thumbnail.webp"
+                          }
+                        }
+                      }
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 199.96
+                    },
+                    "discountedTotal": {
+                      "type": "integer",
+                      "example": 161
+                    },
+                    "userId": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "totalProducts": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "totalQuantity": {
+                      "type": "integer",
+                      "example": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求参数错误"
+          }
+        }
+      }
     }
   },
   "components": {
